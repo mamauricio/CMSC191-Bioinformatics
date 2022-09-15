@@ -4,15 +4,32 @@
 #https://upload.wikimedia.org/wikipedia/commons/2/28/Smith-Waterman-Algorithm-Example-Step2.png
 #or like sw.PNG
 
-def print_matrix1(a,x,y):
-	mrows = len(x)
-	ncols = len(y)
+from time import sleep
+from xml.etree.ElementTree import tostring
 
+
+def print_matrix1(a,x,y):
+	mrows = len(x) + abs((len(x) - len(y)))
+	ncols = len(y) + abs((len(x) - len(y)))
+
+	
+	print('     ', end='')
+	for i in range(len(y)): #print y 
+		print(y[i], end='  ')
+	print()
+		
+	b = 0
+	
 	for i in range(mrows):
 		for j in range(ncols):
+
+			if(j==0 and i == 0):
+				print(end=' ') # fix spacing on first line
+			if(j == 0 and i > 0 ): # loop for printing 
+				print(x[b], end='')	# print x
+				b = b+1 			# increment iterator for x
 			print("%2d" % a[i][j], end=' ')
 		print()
-
 
 def gen_matrix(x, y, match_score=3, gap_cost=2):
 	mrows = len(x)
@@ -23,7 +40,7 @@ def gen_matrix(x, y, match_score=3, gap_cost=2):
 	for i in range(mrows + 1):
 		a[i] = [0] * (ncols + 1)
 	
-	#print_matrix(a,x,y)
+	# print_matrix(a,x,y)
 	
 	for i in range(1,mrows+1):
 		for j in range(1,ncols+1):
@@ -34,7 +51,6 @@ def gen_matrix(x, y, match_score=3, gap_cost=2):
 			insert = a[i][j - 1] - gap_cost
 			a[i][j]=max(match,delete,insert,0)
 
-	#print_matrix(a,x,y)	
 	return(a)
 	
 x = "GGTTGACTA"	
